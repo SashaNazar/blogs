@@ -25,5 +25,84 @@ LESSON 1
 
         Мы создали бандл, при этом на заднем плане автоматически создан маршрут, и бандл зарегистрован в файле app/AppKernel.php.
 5. Маршрут Бандла был импортирован в основной файл маршрутизации приложения, расположенного в app/config/routing.yml
+6. Файл маршрутов BloggerBlogBundle расположен в src/Blogger/BlogBundle/Resources/config/routing.yml
+7.Контроллер в этом примере очень прост. Класс DefaultController расширяет Controller класс, который обеспечивает некоторые полезные методы,
+    такие как метод представления (render), используемый ниже. Наша функция ничего не делает, она только лишь вызывает метод представления (render)
+     с указанием index.html.twig шаблона в папке BloggerBlogBundle.
+  Формат имени шаблона: Бандл: Контроллер: Шаблон. В нашем примере это BloggerBlogBundle:Default:index.html.twig, который отображает index.html.twigшаблон,
+   в папке view по умолчанию в BloggerBlogBundle или физически файл src/Blogger/BlogBundle/Resources/views/Default/index.html.twig.
+8. Шаблон - src/Blogger/BlogBundle/Resources/views/Default/index.html.twig
+9. Почистим немного наш бандл, т.к. некоторые файлы, созданные генератором, нам не нужны. Файл контроллера src/Blogger/BlogBundle/Controller/DefaultController.php
+    может быть удалён так же, как и папка Default src/Blogger/BlogBundle/Resources/views/Default. И, наконец, удалите маршрут,
+     расположенный в src/Blogger/BlogBundle/Resources/config/routing.yml
+10. Так как Twig поддерживает наследование шаблонов, мы будем использовать трёхуровневый подход наследования шаблонов.
+    Такой подход позволяет нам изменять вид на 3-х различных уровнях приложения, давая нам большие возможности и гибкость.
+11. Начнем с создания базового шаблона для блога. Нам понадобятся 2 файла, шаблон и CSS. Так как Symfony2 поддерживает HTML5, мы будет использовать и его.
+    Базовый шаблон: app/Resources/views/base.html.twig
+12. Добавим несколько стилей. Создайте файл таблиц стилей, web/css/screen.css и добавьте следующее содержание. Это позволит добавить стили для главного шаблона.
+13. Теперь мы перейдем к созданию макета для BlogBundle. Создайте файл, расположенный в
+        src/Blogger/BlogBundle/Resources/views/layout.html.twig и добавьте следующее содержание. Мы расширили шаблон унаследовав
+       базовый шаблон - {% extends '::base.html.twig' %}
+14. Вы заметите, что в формате шаблона отсутствует части Бандл и Контроллер, помните, формат Бандл: Контроллер: Шаблон???
+    Исключив Бандл и Контроллер мы указали что будет использоваться шаблон на уровне приложения определённого
+     в app/Resources/views.
+15. На первый взгляд этот шаблон может показаться немного простым, но его простота и является ключом.
+ Во-первых, расширяет базовый шаблон, который мы создали ранее. Во-вторых, переопределяет родительский sidebar.
+  Так как sidebar будет присутствовать на всех страницах нашего блога имеет смысл выполнить настройку на этом уровне.
+   Вы можете спросить, почему бы нам просто не поставить настройки в шаблоне приложения, так как он будет присутствовать
+    на всех страницах. Это просто, приложение ничего не знает о Бандле и не должно. Бандл должен самостоятельно содержать
+     всю свою функциональность и вывод sidebar’а является частью этой функциональности. Итак, почему бы нам просто
+      не поставить sidebar в каждом из шаблонов страниц? Опять же, это просто, мы бы дублировали sidebar каждый раз,
+       когда добавляли бы страницу. Этот шаблон второго уровня даст нам гибкость в будущем добавить другие настройки.
+        Например, мы хотим изменить копию подвала на всех страницах, это было бы прекрасное место, чтобы сделать это.
+16. Мы готовы для макета контроллера. Эти макеты будут широко связаны с действием контроллера, то есть blog show action
+    будет иметь blog show шаблон.
+17. Создайте контроллер  src/Blogger/BlogBundle/Controller/PageController.php
+18. Теперь создайте шаблон для этой функции. Как вы можете видеть в функции контроллера мы будем отображать шаблон индексной страницы. Создайте шаблон:
+    src/Blogger/BlogBundle/Resources/views/Page/index.html.twig
+19. В этом примере BloggerBlogBundle::layout.html.twig пропущено имя контроллера.
+        Исключив имя контроллера, мы указали использование шаблона уровня Bundle
+         src/Blogger/BlogBundle/Resources/views/layout.html.twig.
+20. Теперь давайте добавим маршрут для нашего сайта. Обновите файл конфигурации src/Blogger/BlogBundle/Resources/config/routing.yml:
+21. Вы должны увидеть основной макет блога, с основным содержанием и sidebar’ом.
+22. Последняя задача в этой части урока будет создание статической страницы “About”.
+    Это продемонстрирует, как связать страницы вместе, и далее применять подход трёхуровневого
+     наследования шаблонов принятого нами.
+23. При создании новой страницы, одна из первых задач состоит в создании маршрута для неё.
+    Откройте файл маршрутизации BloggerBlogBundle расположенный в src/Blogger/BlogBundle/Resources/config/routing.ymlи
+     добавьте следующее правило маршрутизации. - src/Blogger/BlogBundle/Resources/config/routing.yml
+24. Затем откройте Page Controller, расположенный в  src/Blogger/BlogBundle/Controller/PageController.php
+    и добавьте действие для обработки страницы “About”
+25. Для отображения шаблона создайте новый файл src/Blogger/BlogBundle/Resources/views/Page/about.html.twig
+26. В странице “About” нет ничего особенного. Это всего лишь функция, которая выводит шаблон с некоторым контентом
+    Она тем не менее приведёт нас к следующей задаче.
+27. Теперь мы имеем страницу “About”. Перейдите по адресу http://localhost:8000/about чтобы в этом убедиться.
+    Однако у пользователя нет никакого другого способа попасть на эту страницу кроме как написать в адресную строку
+     полный её адрес, что мы и сделали выше. Запомните вы всегда должны использовать функции маршрутизации,
+      предоставляемые Symfony2, никогда не используете следующее:    <a href="/contact">Contact</a>
+    <?php $this->redirect("/contact"); ?>
+28. Правильный способ связать страницы это path и url — методы, предусмотренные Twig.
+    Они оба очень похожи, метод URL будет предоставлять нам абсолютный URL. Давайте обновим шаблон приложения
+     app/Resources/views/base.html.twig и свяжем Домашнюю страницу со страницей “About” вместе.
+     <li><a href="{{ path('BloggerBlogBundle_homepage') }}">Home</a></li>
+     <li><a href="{{ path('BloggerBlogBundle_about') }}">About</a></li>
+29. Наконец обновим ссылки логотипа, которые перенаправят вас на главную страницу.
+    Обновите шаблон, расположенный app/Resources/views/base.html.twig.
+    <!-- app/Resources/views/base.html.twig -->
+    <hgroup>
+        <h2>{% block blog_title %}<a href="{{ path('BloggerBlogBundle_homepage') }}">symblog</a>{% endblock %}</h2>
+        <h3>{% block blog_tagline %}<a href="{{ path('BloggerBlogBundle_homepage') }}">creating a blog in Symfony2</a>{% endblock %}</h3>
+    </hgroup>
 
 
+
+
+
+
+
+
+If you are sure the namespace and service definition are right you can try:
+
+Upgrade Symfony version. I had an strange issue with Symfony 2.8.11, new services added gave me a ClassNotFoundException. Upgrading to 2.8.17 solved it.
+Try remove app/cache/* contents
+Check if you are using a pre-generated boostrap cached file without the "--no-dev" option (composer dump-autoload --optimize --no-dev --classmap-authoritative) and launch command again.
