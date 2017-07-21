@@ -1,0 +1,29 @@
+LESSON 1
+1. Откройте файл app/config/parameters.yml и укажите данные для вашей базы данных: логин, пароль и т.д.
+2. Не забудьте удалить бандл, устанавливаемый по умолчанию (он нам не понадобится) для этого:
+    - Удалите папку AppBundle из каталога src
+    - Удалите строчку new AppBundle\AppBundle() из зарегистрированных Бандлов, в файле app/AppKernel.php
+    - Удалите папку default по адресу app/Resources/views
+    - Удалите следующие строки из файла app/config/routing.yml:
+          "app:
+              resource: "@AppBundle/Controller/"
+              type:     annotation
+          "
+3. Чтобы сгенерировать бандл, выполните следующую команду в консоли из папки проекта:
+      php app/console generate:bundle
+4.Вам будет представлен ряд подсказок, которые позволяют настроить бандл.
+        Нас спросят, будем ли мы использовать этот бандл в других приложениях, отвечаем yes :
+            Are you planning on sharing this bundle across multiple applications? [no]: yes
+        Указываем пространство имён у нас оно будет Blogger/BlogBundle:
+            Bundle namespace:
+
+        Далее путь установки Бандла:
+            Target Directory [src/]:
+        Оставляем по умолчанию, нажимаем Enter
+        Так же нужно указать формат файла конфигурации мы выберем yml:
+            Configuration format (annotation, yml, xml, php) [xml]: yml
+
+        Мы создали бандл, при этом на заднем плане автоматически создан маршрут, и бандл зарегистрован в файле app/AppKernel.php.
+5. Маршрут Бандла был импортирован в основной файл маршрутизации приложения, расположенного в app/config/routing.yml
+
+
