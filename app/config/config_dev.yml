@@ -9,7 +9,8 @@ framework:
 
 web_profiler:
     toolbar: true
-    intercept_redirects: false
+    #intercept_redirects: false
+    intercept_redirects: true
 
 monolog:
     handlers:
@@ -32,3 +33,6 @@ monolog:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+swiftmailer:
+    disable_delivery: true
+    delivery_address: sashko.romanuk@gmail.com
